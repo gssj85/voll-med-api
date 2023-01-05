@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import med.voll.api.endereco.DadosEndereco;
 import med.voll.api.endereco.Endereco;
 
 
@@ -25,12 +24,24 @@ public class Paciente {
     private String telefone;
     private String cpf;
     private Endereco endereco;
+    private Boolean ativo;
 
     public Paciente(DadosCadastroPaciente dadosCadastroPaciente) {
+        this.ativo = true;
         this.nome = dadosCadastroPaciente.nome();
         this.email = dadosCadastroPaciente.email();
         this.telefone = dadosCadastroPaciente.telefone();
         this.cpf = dadosCadastroPaciente.cpf();
         this.endereco = new Endereco(dadosCadastroPaciente.endereco());
+    }
+
+    public void atualizarInformacoes(DadosAtualizacaoPaciente dados) {
+        if (dados.nome() != null) this.nome = dados.nome();
+        if (dados.telefone() != null) this.telefone = dados.telefone();
+        if (dados.endereco() != null) endereco.atualizarInformacoes(dados.endereco());
+    }
+
+    public void inativar() {
+        this.ativo = false;
     }
 }
