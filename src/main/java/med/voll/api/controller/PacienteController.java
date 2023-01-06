@@ -2,7 +2,7 @@ package med.voll.api.controller;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import med.voll.api.paciente.*;
+import med.voll.api.domain.paciente.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +18,9 @@ public class PacienteController {
     private PacienteRepository pacienteRepository;
 
     @PostMapping
-    public ResponseEntity<DadosDetalhamentoPaciente> cadastrar(@RequestBody @Valid DadosCadastroPaciente dadosCadastroPaciente) {
+    public ResponseEntity<DadosDetalhamentoPaciente> cadastrar(
+            @RequestBody @Valid DadosCadastroPaciente dadosCadastroPaciente
+    ) {
         var paciente = new Paciente(dadosCadastroPaciente);
         pacienteRepository.save(paciente);
 
@@ -48,7 +50,9 @@ public class PacienteController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity<DadosDetalhamentoPaciente> atualizar(@RequestBody @Valid DadosAtualizacaoPaciente dadosAtualizacaoPaciente) {
+    public ResponseEntity<DadosDetalhamentoPaciente> atualizar(
+            @RequestBody @Valid DadosAtualizacaoPaciente dadosAtualizacaoPaciente
+    ) {
         var paciente = pacienteRepository.getReferenceById(dadosAtualizacaoPaciente.id());
         paciente.atualizarInformacoes(dadosAtualizacaoPaciente);
         return ResponseEntity.ok(new DadosDetalhamentoPaciente(paciente));
